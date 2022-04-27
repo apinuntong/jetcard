@@ -27,28 +27,10 @@ sudo -H pip3 install jetson-stats
 
 
 # Install the pre-built PyTorch pip wheel 
-echo "\e[45m Install the pre-built PyTorch pip wheel  \e[0m"
-cd
-wget -N https://nvidia.box.com/shared/static/9eptse6jyly1ggt9axbja2yrmj6pbarc.whl -O torch-1.6.0-cp36-cp36m-linux_aarch64.whl 
-sudo apt-get install -y python3-pip libopenblas-base libopenmpi-dev 
-sudo -H pip3 install Cython
-sudo -H pip3 install numpy==1.19.4 torch-1.6.0-cp36-cp36m-linux_aarch64.whl
 
 # Install torchvision package
-echo "\e[45m Install torchvision package \e[0m"
-cd
-git clone https://github.com/pytorch/vision torchvision
-cd torchvision
-sudo apt-get install -y libavcodec-dev libavformat-dev libswscale-dev
-git checkout tags/v0.7.0
-sudo -H python3 setup.py install
-cd  ../
-sudo -H pip3 install pillow
 
 # pip dependencies for pytorch-ssd
-echo "\e[45m Install dependencies for pytorch-ssd \e[0m"
-sudo -H pip3 install --verbose --upgrade Cython && \
-sudo -H pip3 install --verbose boto3 pandas
 
 
 
@@ -60,28 +42,9 @@ sudo apt-get install -y libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip
 sudo apt-get install -y python3-pip
 sudo -H pip3 install -U pip testresources setuptools==49.6.0 
 sudo -H pip3 install -U numpy==1.19.4 future==0.18.2 mock==3.0.5 h5py==2.10.0 keras_preprocessing==1.1.1 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
-sudo -H pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v45  'tensorflow<2'
+sudo -H pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v44  'tensorflow<2'
 
 # Install TensorFlow models repository
-echo "\e[48;5;202m Install TensorFlow models repository \e[0m"
-cd
-url="https://github.com/tensorflow/models"
-tf_models_dir="TF-models"
-if [ ! -d "$tf_models_dir" ] ; then
-	git clone $url $tf_models_dir
-	cd "$tf_models_dir"/research
-	git checkout 5f4d34fc
-	wget -O protobuf.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protoc-3.7.1-linux-aarch_64.zip
-	# wget -O protobuf.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.7.1/protoc-3.7.1-linux-x86_64.zip
-	unzip protobuf.zip
-	./bin/protoc object_detection/protos/*.proto --python_out=.
-	sudo -H python3 setup.py install
-	cd slim
-	sudo -H python3 setup.py install
-fi
-
-
-
 # Install traitlets (master, to support the unlink() method)
 echo "\e[48;5;172m Install traitlets \e[0m"
 #sudo -H python3 -m pip install git+https://github.com/ipython/traitlets@master
@@ -103,7 +66,6 @@ echo "\e[42m Install jupyter_clickable_image_widget \e[0m"
 cd
 git clone https://github.com/jaybdub/jupyter_clickable_image_widget
 cd jupyter_clickable_image_widget
-git checkout tags/v0.1
 sudo -H pip3 install -e .
 sudo -H jupyter labextension install js
 sudo -H jupyter lab build
@@ -129,18 +91,12 @@ sudo -H python3 setup.py install
 # =================
 # INSTALL torch2trt
 # =================
-cd 
-git clone https://github.com/NVIDIA-AI-IOT/torch2trt 
-cd torch2trt 
-sudo -H python3 setup.py install --plugins
+
 
 # =================
 # INSTALL jetracer
 # =================
-cd $HOME
-git clone https://github.com/NVIDIA-AI-IOT/jetracer
-cd jetracer
-sudo -H python3 setup.py install
+
 
 # ========================================
 # Install other misc packages for trt_pose
@@ -154,7 +110,6 @@ sudo -H pip3 install -U scikit-learn
 # Install other misc packages for point_detector
 # ==============================================
 sudo -H pip3 install tensorboard
-sudo -H pip3 install segmentation-models-pytorch
 
 
 # Install jetcard
@@ -163,14 +118,6 @@ cd $DIR
 pwd
 sudo apt-get install python3-pip python3-setuptools python3-pil python3-smbus
 sudo -H pip3 install flask
-sudo -H python3 setup.py install
-
-# Install jetcard display service
-echo "\e[44m Install jetcard display service \e[0m"
-python3 -m jetcard.create_display_service
-sudo mv jetcard_display.service /etc/systemd/system/jetcard_display.service
-sudo systemctl enable jetcard_display
-sudo systemctl start jetcard_display
 
 # Install jetcard jupyter service
 echo "\e[44m Install jetcard jupyter service \e[0m"
