@@ -49,6 +49,22 @@ python3 -c "from notebook.auth.security import set_password; set_password('$pass
 sudo -H python3 -m pip install git+https://github.com/ipython/traitlets@dead2b8cdde5913572254cf6dc70b5a6065b86f8
 sudo -H jupyter lab build
 
+cd $DIR
+pwd
+sudo apt-get install python3-pip python3-setuptools python3-pil python3-smbus
+sudo -H pip3 install flask
+
+# Install jetcard jupyter service
+echo "\e[44m Install jetcard jupyter service \e[0m"
+python3 -m jetcard.create_jupyter_service
+sudo mv jetcard_jupyter.service /etc/systemd/system/jetcard_jupyter.service
+sudo systemctl enable jetcard_jupyter
+sudo systemctl start jetcard_jupyter
+
+# Make swapfile
+echo "\e[46m Make swapfile \e[0m"
+cd
+
 echo "\e[42m All done! \e[0m"
 
 #record the time this script ends
